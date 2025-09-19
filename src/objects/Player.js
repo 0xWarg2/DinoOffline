@@ -83,6 +83,7 @@ export class Player {
   jump() {
     this.velocityY = JUMP_VELOCITY
     this.onGround = false
+    this.scene.events.emit('player-jump')
   }
 
   updateAnimation(force = false) {

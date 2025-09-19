@@ -83,6 +83,20 @@ export default class GameScene extends Phaser.Scene {
     this.player = new Player(this, GAME_WIDTH / 2 - PLAYER_WIDTH / 2, 128)
     this.player.sprite.setDepth(10)
 
+    this.handlePlayerJumpSound = () => {
+      this.sound.play('sfx-jump', { volume: 0.55 })
+    }
+    this.handlePlayerHurtSound = () => {
+      this.sound.play('sfx-hurt', { volume: 0.65 })
+    }
+
+    this.events.on('player-jump', this.handlePlayerJumpSound)
+    this.events.on('player-hurt', this.handlePlayerHurtSound)
+    this.events.once(Phaser.Scenes.Events.SHUTDOWN, () => {
+      this.events.off('player-jump', this.handlePlayerJumpSound)
+      this.events.off('player-hurt', this.handlePlayerHurtSound)
+    })
+
     this.restart()
   }
 
@@ -464,6 +478,7 @@ export default class GameScene extends Phaser.Scene {
       return
     }
 
+    this.events.emit('player-hurt')
     this.state = STATES.DEAD
     this.overlay.setVisible(true)
     this.gameOverText.setVisible(true)

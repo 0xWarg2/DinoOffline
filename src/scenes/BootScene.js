@@ -21,6 +21,11 @@ export default class BootScene extends Phaser.Scene {
 
     this.load.image('ptero-1', 'enemy.png')
     this.load.image('ptero-2', 'enemy_4.png')
+
+    this.load.setPath('assets/musics')
+    this.load.audio('music-adventure', 'time_for_adventure.mp3')
+    this.load.audio('sfx-jump', 'jump.wav')
+    this.load.audio('sfx-hurt', 'hurt.wav')
   }
 
   create() {

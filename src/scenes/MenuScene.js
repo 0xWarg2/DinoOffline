@@ -11,6 +11,13 @@ export default class MenuScene extends Phaser.Scene {
     this.scoreManager = new ScoreManager()
     this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0xffffff).setOrigin(0, 0)
 
+    const music = this.sound.get('music-adventure')
+      || this.sound.add('music-adventure', { loop: true, volume: 0.45 })
+    if (!music.isPlaying) {
+      music.play()
+    }
+    this.backgroundMusic = music
+
     const header = this.add.container(GAME_WIDTH / 2, 68)
 
     const title = this.add.text(0, 0, 'Offline DiRialo!', {
