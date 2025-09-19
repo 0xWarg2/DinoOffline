@@ -11,47 +11,67 @@ export default class MenuScene extends Phaser.Scene {
     this.scoreManager = new ScoreManager()
     this.add.rectangle(0, 0, GAME_WIDTH, GAME_HEIGHT, 0xffffff).setOrigin(0, 0)
 
-    this.dino = this.add.sprite(GAME_WIDTH / 2 - 16, GAME_HEIGHT / 2 - 48, 'dino-stand')
-    this.dino.setOrigin(0, 0)
-    this.dino.anims.play('dino-run')
+    const header = this.add.container(GAME_WIDTH / 2, 68)
 
-    const title = this.add.text(32, 64, 'No Internet', {
-      fontFamily: 'Segoe UI, Tahoma, sans-serif',
-      fontSize: '24px',
-      color: '#222',
+    const title = this.add.text(0, 0, 'Offline DiRialo!', {
+      fontFamily: '"Pixelify Sans", monospace',
+      fontSize: '18px',
+      color: '#1f2933',
     })
+    title.setOrigin(0.5, 0.5)
 
-    this.add.text(32, 112, 'Try:', {
-      fontFamily: 'Segoe UI, Tahoma, sans-serif',
-      fontSize: '16px',
-      color: '#222',
-    })
+    const logo = this.add.image(0, 0, 'logo-dino')
+    logo.setOrigin(0.5, 0.5)
+    logo.setDisplaySize(32, 32)
+
+    const spacing = 8
+    const totalWidth = logo.displayWidth + spacing + title.displayWidth
+    logo.x = -totalWidth / 2 + logo.displayWidth / 2
+    title.x = totalWidth / 2 - title.displayWidth / 2
+
+    header.add([logo, title])
+
+    const subtitle = this.add.text(
+      GAME_WIDTH / 2,
+      104,
+      'The internet is napping — time to dash across the dunes!',
+      {
+        fontFamily: '"Pixelify Sans", monospace',
+        fontSize: '10px',
+        color: '#1f2933',
+        align: 'center',
+        wordWrap: { width: GAME_WIDTH - 48 },
+        lineSpacing: 4,
+      }
+    )
+    subtitle.setOrigin(0.5, 0.5)
 
     const tips = [
-      '● Checking the network cable or router',
-      '● Resetting the modem or router',
-      '● Reconnecting to Wi-Fi',
+      '🌵 Leap over cactus buddies',
+      '🪽 Duck when the ptero swoops',
+      '🏆 Stretch your run for hi-scores',
     ]
 
     tips.forEach((tip, index) => {
-      this.add.text(44, 140 + index * 24, tip, {
-        fontFamily: 'Segoe UI, Tahoma, sans-serif',
-        fontSize: '14px',
-        color: '#222',
+      this.add.text(36, 148 + index * 24, tip, {
+        fontFamily: '"Pixelify Sans", monospace',
+        fontSize: '10px',
+        color: '#1f2933',
+        lineSpacing: 4,
       })
     })
 
-    const prompt = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 80, 'Press space to start', {
-      fontFamily: 'Courier, monospace',
-      fontSize: '14px',
-      color: '#888',
+    const prompt = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 72, 'Press SPACE or TAP to start', {
+      fontFamily: '"Pixelify Sans", monospace',
+      fontSize: '10px',
+      color: '#64748b',
     })
     prompt.setOrigin(0.5, 0.5)
 
-    const hiscore = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 48, `HI ${this.formatScore(this.scoreManager.highScore)}`, {
-      fontFamily: 'Courier, monospace',
-      fontSize: '14px',
-      color: '#444',
+    const hiscore = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT - 44, `HI ${this.formatScore(this.scoreManager.highScore)}`, {
+      fontFamily: '"Pixelify Sans", monospace',
+      fontSize: '10px',
+      color: '#1f2933',
     })
     hiscore.setOrigin(0.5, 0.5)
 

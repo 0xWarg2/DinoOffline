@@ -12,6 +12,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.image('dino-step-alt', 'dino_rev_step2.png')
     this.load.image('dino-duck1', 'dino2.png')
     this.load.image('dino-duck2', 'dino2_rev.png')
+    this.load.image('logo-dino', 'dinologo.png')
 
     this.load.image('box-sleep', 'box_sleep.png')
     this.load.image('box', 'box.png')

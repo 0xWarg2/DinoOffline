@@ -65,15 +65,16 @@ export default class GameScene extends Phaser.Scene {
     this.scoreManager = new ScoreManager()
 
     this.hudText = this.add.text(GAME_WIDTH - 12, 12, '', {
-      fontFamily: 'Courier, monospace',
-      fontSize: '16px',
+      fontFamily: '"Pixelify Sans", monospace',
+      fontSize: '12px',
       color: this.invColor,
     }).setOrigin(1, 0)
 
-    this.gameOverText = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'GAME OVER', {
-      fontFamily: 'Courier, monospace',
-      fontSize: '18px',
+    this.gameOverText = this.add.text(GAME_WIDTH / 2, GAME_HEIGHT / 2, 'OUT OF JUICE!', {
+      fontFamily: '"Pixelify Sans", monospace',
+      fontSize: '14px',
       color: this.invColor,
+      align: 'center',
     }).setOrigin(0.5, 0.5)
     this.gameOverText.setVisible(false)
 
