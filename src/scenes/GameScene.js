@@ -234,6 +234,9 @@ export default class GameScene extends Phaser.Scene {
     sprite.anims.play('ptero-fly')
     sprite.setFlipX(!fromLeft)
 
+    const sound = this.sound.add('sfx-enemy-fly', { loop: true, volume: 0 })
+    sound.play()
+
     const enemy = {
       type: ENEMY_TYPES.PTERO,
       x: startX,
@@ -243,6 +246,7 @@ export default class GameScene extends Phaser.Scene {
       velocityX,
       velocityY,
       sprite,
+      sound,
     }
 
     this.enemies.push(enemy)
@@ -361,6 +365,21 @@ export default class GameScene extends Phaser.Scene {
         toRemove.push(enemy)
       } else if (enemy.type === ENEMY_TYPES.PTERO) {
         enemy.sprite.setFlipX(enemy.velocityX < 0)
+        if (enemy.sound) {
+          const playerCenterX = this.player.x + PLAYER_WIDTH / 2
+          const playerCenterY = this.player.y + PLAYER_HEIGHT / 2
+          const enemyCenterX = enemy.x + enemy.width / 2
+          const enemyCenterY = enemy.y + enemy.height / 2
+          const distance = Phaser.Math.Distance.Between(
+            playerCenterX,
+            playerCenterY,
+            enemyCenterX,
+            enemyCenterY
+          )
+          const maxDistance = 240
+          const proximity = Phaser.Math.Clamp(1 - distance / maxDistance, 0, 1)
+          enemy.sound.setVolume(proximity * 0.9)
+        }
       }
     })
 
@@ -371,6 +390,11 @@ export default class GameScene extends Phaser.Scene {
     const idx = this.enemies.indexOf(enemy)
     if (idx !== -1) {
       this.enemies.splice(idx, 1)
+    }
+    if (enemy.sound) {
+      enemy.sound.stop()
+      enemy.sound.destroy()
+      enemy.sound = null
     }
     enemy.sprite.destroy()
   }
@@ -479,6 +503,11 @@ export default class GameScene extends Phaser.Scene {
     }
 
     this.events.emit('player-hurt')
+    this.enemies.forEach(enemy => {
+      if (enemy.sound) {
+        enemy.sound.stop()
+      }
+    })
     this.state = STATES.DEAD
     this.overlay.setVisible(true)
     this.gameOverText.setVisible(true)
@@ -501,7 +530,13 @@ export default class GameScene extends Phaser.Scene {
   }
 
   clearEnemies() {
-    this.enemies.forEach(enemy => enemy.sprite.destroy())
+    this.enemies.forEach(enemy => {
+      enemy.sprite.destroy()
+      if (enemy.sound) {
+        enemy.sound.stop()
+        enemy.sound.destroy()
+      }
+    })
     this.enemies = []
   }
 }

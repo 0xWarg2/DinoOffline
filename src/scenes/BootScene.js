@@ -26,6 +26,7 @@ export default class BootScene extends Phaser.Scene {
     this.load.audio('music-adventure', 'time_for_adventure.mp3')
     this.load.audio('sfx-jump', 'jump.wav')
     this.load.audio('sfx-hurt', 'hurt.wav')
+    this.load.audio('sfx-enemy-fly', 'enemyfly.wav')
   }
 
   create() {
